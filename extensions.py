@@ -23,7 +23,7 @@ class Converter: # creat class for currency conversion (take this functionality 
         if base_key == quote_key: # for exception equal currencies
             raise APIException(f'Выберите другую валюту для конвертации {base}!')
 
-        r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={base}&tsyms={quote}')
+        r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={base_key}&tsyms={quote_key}')
         resp = json.loads(r.content)
         price = resp[quote] * float(amount)
         return price

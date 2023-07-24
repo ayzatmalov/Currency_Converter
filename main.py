@@ -35,7 +35,7 @@ def values(message: telebot.types.Message):
 @bot.message_handler(content_types=['text'])
 def converter(message: telebot.types.Message):
     base, quote, amount = message.text.split()
-    price = Converter.get_price(base, quote, amount)
+    price = Converter.get_price(base, quote, amount) #take parametres from class Converter
     bot.reply_to(message, f'Price for {amount} {base} in {quote} : {price}')
     return message
 
