@@ -17,11 +17,21 @@ bot = telebot.TeleBot(TOKEN)
 
 # main commands for bot:
 # base commands:
-@bot.message_handler(commands=['start', 'help']) # use method message_handler with two arguments 'start' and 'help' or types of messages and return decorator
+@bot.message_handler(commands=['start']) # use method message_handler with argument 'start' or type of message and return decorator
 def start(message: telebot.types.Message): # in decarator our function - start, which process the messages
     text = 'Hello! \nChoice the commands: \n/values (show you available currencies) ' \
-           '\n/start (show you menu of commands)'
+           '\n/start (show you menu of commands \n/help (show you the conversion rules)'
     bot.send_message(message.chat.id, text)
+
+# the command for explanation of user how to convert (entering format):
+@bot.message_handler(commands=['help'])
+def help(message: telebot.types.Message):
+    text = 'example entering format:' \
+           '\nUSD RUB 100; where,' \
+           '\nUSD - the base currency,'\
+           '\nRUB - the conversion currency,' \
+           '\n100 - amount'
+    bot.reply_to(message, text)
 
 # the command for handler which show availbale currencies for conversion:
 @bot.message_handler(commands=['values'])
