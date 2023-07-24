@@ -1,7 +1,6 @@
 import telebot
-import requests
-import json
 from config import *
+from extensions import Converter
 
 # initialization of bot object:
 bot = telebot.TeleBot(TOKEN)
@@ -10,8 +9,8 @@ bot = telebot.TeleBot(TOKEN)
 # base commands:
 @bot.message_handler(commands=['start']) # use method message_handler with argument 'start' or type of message and return decorator
 def start(message: telebot.types.Message): # in decarator our function - start, which process the messages
-    text = 'Hello! \nChoice the commands: \n/values (show you available currencies) ' \
-           '\n/start (show you menu of commands \n/help (show you the conversion rules)'
+    text = 'Hello! \nChoice the commands: \n/start (show you menu of commands) ' \
+           '\n/values (show you available currencies) \n/help (show you the conversion rules)'
     bot.send_message(message.chat.id, text)
 
 # the command for explanation of user how to convert (entering format):
@@ -36,9 +35,7 @@ def values(message: telebot.types.Message):
 @bot.message_handler(content_types=['text'])
 def converter(message: telebot.types.Message):
     base, quote, amount = message.text.split()
-    r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={base}&tsyms={quote}')
-    resp = json.loads(r.content)
-    price = resp[quote] * float(amount)
+    price = Converter.get_price(base, quote, amount)
     bot.reply_to(message, f'Price for {amount} {base} in {quote} : {price}')
     return message
 
