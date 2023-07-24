@@ -1,16 +1,7 @@
 import telebot
 import requests
 import json
-
-# creation of dictionary for major currencies:
-major_exchanges = {
-    'Dollar': 'USD',
-    'Euro': 'ЕUR',
-    'Ruble': 'RUB',
-}
-
-# main contstant for HTTP API:
-TOKEN = '6416434012:AAEcWPvx66qzOsuBjJJTKvoQd3IyRwl5Mhk'
+from config import *
 
 # initialization of bot object:
 bot = telebot.TeleBot(TOKEN)
