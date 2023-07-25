@@ -1,8 +1,8 @@
 # creation of dictionary for major currencies:
 major_exchanges = {
-    'Dollar': 'USD',
-    'Euro': 'ЕUR',
-    'Ruble': 'RUB',
+    'dollar': 'USD',
+    'euro': 'EUR',
+    'ruble': 'RUB'
 }
 
 # main contstant for Telegram Bot HTTP API:

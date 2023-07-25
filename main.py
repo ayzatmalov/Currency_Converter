@@ -1,6 +1,9 @@
+
+
 import telebot
-from config import *
-from extensions import Converter
+from config import TOKEN, major_exchanges
+from extensions import Convertor, APIException
+import traceback
 
 # initialization of bot object:
 bot = telebot.TeleBot(TOKEN)
@@ -31,13 +34,23 @@ def values(message: telebot.types.Message):
         text = '\n'.join((text, i)) # display each currency on new line
     bot.reply_to(message, text) # attaching the message like a reply for user's message
 
-# the command for currency conversion
+# the command for currency conversion with Exception handler
 @bot.message_handler(content_types=['text'])
 def converter(message: telebot.types.Message):
-    base, quote, amount = message.text.split()
-    price = Converter.get_price(base, quote, amount) #take parametres from class Converter
-    bot.reply_to(message, f'Price for {amount} {base} in {quote} : {price}')
-    return message
+    values = message.text.split(' ')
+    try:
+        if len(values) != 3:
+            raise APIException('Wrong numbers of parameters!')
+
+        answer = Convertor.get_price(*values) # take parametres from class Converter
+    except APIException as e:
+        bot.reply_to(message, f"Command error:\n{e}")
+    except Exception as e:
+        traceback.print_tb(e.__traceback__)
+        bot.reply_to(message, f"Unknown error:\n{e}")
+    else:
+        bot.reply_to(message, answer)
+
 
 # launch communication with Telegram (use the method - polling, for start bot mode)
 bot.polling()
